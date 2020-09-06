@@ -38,6 +38,9 @@ function cubic($a=0, $b=0, $c=0, $d=0) {
             return [(square($b, $c, $d))];
         } else {
             $Q = ($a**2 - 3*$b) / 9;
+            if ($Q < 0) {
+                return ["Q < 0"];
+            }
             $R = 2*$a**3 - 9*$a*$b + 27*$c;
             $S = $Q**3 - $R**2;
 
@@ -53,9 +56,15 @@ function cubic($a=0, $b=0, $c=0, $d=0) {
                 if ($Q > 0) {
                     $compNum1 = new complex;
                     $compNum2 = new complex;
-                    $fi = 1 / (3 * cosh(abs($R) / pow($Q, 3/2)));
+                    $fi = 1 / 3 * acosh(abs($R) / pow($Q, 3/2));
 
                     $x1 = -2 * sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
+                    $compNum1->real = sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
+                    $compNum1->im = sqrt(3) * sqrt($Q) * sinh($fi);
+                    $compNum1->real = sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
+                    $compNum1->im = -sqrt(3) * sqrt($Q) * sinh($fi);
+
+                    return [$x1, $compNum1, $compNum2];
                 }
             }
             
