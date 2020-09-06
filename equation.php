@@ -38,20 +38,21 @@ function cubic($a=0, $b=0, $c=0, $d=0) {
             return [(square($b, $c, $d))];
         } else {
             $Q = ($a**2 - 3*$b) / 9;
-            if ($Q < 0) {
-                return ["Q < 0"];
-            }
-            $R = 2*$a**3 - 9*$a*$b + 27*$c;
+            $R = (2*$a**3 - 9*$a*$b + 27*$c) / 54;
             $S = $Q**3 - $R**2;
 
             if ($S > 0) {
-                $fi = 1/3 * acos($R/pow($Q, 3/2));
+                $fi = acos($R/pow($Q, 3/2)) / 3;
 
                 $x1 = -2 * sqrt($Q) * cos($fi) - $a/3;
                 $x2 = -2 * sqrt($Q) * cos($fi + 2*pi()/3) - $a/3;
                 $x3 = -2 * sqrt($Q) * cos($fi - 2*pi()/3) - $a/3;
 
-                return [$x1, $x2, $x3];
+                return [
+                    "x1" => "$x1 <br>", 
+                    "x2" => "$x2 <br>", 
+                    "x3" => "$x3 <br>"
+                ];
             } elseif ($S < 0) {
                 if ($Q > 0) {
                     $compNum1 = new complex;
@@ -61,11 +62,58 @@ function cubic($a=0, $b=0, $c=0, $d=0) {
                     $x1 = -2 * sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
                     $compNum1->real = sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
                     $compNum1->im = sqrt(3) * sqrt($Q) * sinh($fi);
-                    $compNum1->real = sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
-                    $compNum1->im = -sqrt(3) * sqrt($Q) * sinh($fi);
+                    $compNum2->real = sgn($R) * sqrt($Q) * cosh($fi) - $a / 3;
+                    $compNum2->im = -sqrt(3) * sqrt($Q) * sinh($fi);
 
-                    return [$x1, $compNum1, $compNum2];
+                    return [
+                        "x1" => "$x1 <br>", 
+                        "x2" => $compNum1, "<br>", 
+                        "x3" => $compNum2, "<br>"
+                    ];
+                } elseif ($Q < 0) {
+                    $compNum1 = new complex;
+                    $compNum2 = new complex;
+                    $fi = asinh(abs($R) / pow(abs($Q), 3/2)) / 3;
+
+                    $x1 = -2 * sgn($R) * sqrt(abs($Q)) * sinh($fi) - $a/3;
+                    $compNum1->real = sgn($R) * sqrt(abs($Q)) * cosh($fi) - $a / 3;
+                    $compNum1->im = sqrt(3) * sqrt(abs($Q)) * sinh($fi);
+                    $compNum2->real = sgn($R) * sqrt(abs($Q)) * cosh($fi) - $a / 3;
+                    $compNum2->im = -sqrt(3) * sqrt(abs($Q)) * sinh($fi);
+
+                    return [
+                        "x1" => "$x1 <br>", 
+                        "x2" => $compNum1, "<br>", 
+                        "x3" => $compNum2, "<br>"
+                    ];
+                } elseif ($Q === 0) {
+                    $compNum1 = new complex;
+                    $compNum2 = new complex;
+
+                    $x1 = -pow($c - $a**3 / 27, 1/3) - $a/3;
+                    $compNum1->real = -($a + $x1) / 2;
+                    $compNum1->im = sqrt(abs(($a - 3*$x1) * ($a + $x1) - 4*$b)) / 2;
+                    $compNum2->real = -($a + $x1) / 2;
+                    $compNum2->im = -sqrt(abs(($a - 3*$x1) * ($a + $x1) - 4*$b)) / 2;
+
+                    return [
+                        "x1" => "$x1 <br>", 
+                        "x2" => $compNum1, "<br>", 
+                        "x3" => $compNum2, "<br>"
+                    ];
+                } else {
+                    return ["Q is NaN"];
                 }
+            } elseif ($S === 0) {
+                $x1 = -2 * pow($R, 1/3) - $a/3;
+                $x2 = pow($R, 1/3) - $a/3;
+
+                return [
+                    "x1" => "$x1 <br>", 
+                    "x2" => "$x2 <br>"
+                ];
+            } else {
+                return ["S is NaN"];
             }
             
             
