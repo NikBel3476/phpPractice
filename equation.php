@@ -32,11 +32,15 @@ function square($a=0, $b=0, $c=0) {
 }
 
 // ax^3 + bx^2 + cx + d = 0
-function cubic($a=0, $b=0, $c=0, $d=0) {
-    if (is_numeric($a) && is_numeric($b) && is_numeric($c) && is_numeric($d)) {
-        if ($a === 0) {
-            return [(square($b, $c, $d))];
+function cubic($num1=0, $num2=0, $num3=0, $num4=0) {
+    if (is_numeric($num1) && is_numeric($num2) && is_numeric($num3) && is_numeric($num4)) {
+        if ($num1 === 0) {
+            return [(square($num1, $num2, $num3))];
         } else {
+            $a = $num2 / $num1;
+            $b = $num3 / $num1;
+            $c = $num4 / $num1;
+
             $Q = ($a**2 - 3*$b) / 9;
             $R = (2*$a**3 - 9*$a*$b + 27*$c) / 54;
             $S = $Q**3 - $R**2;
@@ -76,10 +80,10 @@ function cubic($a=0, $b=0, $c=0, $d=0) {
                     $fi = asinh(abs($R) / pow(abs($Q), 3/2)) / 3;
 
                     $x1 = -2 * sgn($R) * sqrt(abs($Q)) * sinh($fi) - $a/3;
-                    $compNum1->real = sgn($R) * sqrt(abs($Q)) * cosh($fi) - $a / 3;
-                    $compNum1->im = sqrt(3) * sqrt(abs($Q)) * sinh($fi);
-                    $compNum2->real = sgn($R) * sqrt(abs($Q)) * cosh($fi) - $a / 3;
-                    $compNum2->im = -sqrt(3) * sqrt(abs($Q)) * sinh($fi);
+                    $compNum1->real = sgn($R) * sqrt(abs($Q)) * sinh($fi) - $a / 3;
+                    $compNum1->im = sqrt(3) * sqrt(abs($Q)) * cosh($fi);
+                    $compNum2->real = sgn($R) * sqrt(abs($Q)) * sinh($fi) - $a / 3;
+                    $compNum2->im = -sqrt(3) * sqrt(abs($Q)) * cosh($fi);
 
                     return [
                         "x1" => "$x1 <br>", 
