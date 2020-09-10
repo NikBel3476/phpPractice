@@ -119,42 +119,6 @@ function cubic($num1=0, $num2=0, $num3=0, $num4=0) {
             } else {
                 return ["S is NaN"];
             }
-            
-            
-            
-            
-            /*$p = (-$b**2 + 3*$c*$a) / (3*$a**2);
-            $q = (2*($b**3) - 9*$a*$b*$c + 27*$a*$a*$d) / (27*($a**3));
-            $Q = ($p / 3)**3 + ($q / 2)**2;
-            $D = -108 * $Q;
-
-            if ($D > 0) {
-                $A = -$q / 2 + sqrt($Q);
-                $B = -$q / 2 - sqrt($Q);
-
-                $alpha = pow($A, 1 /3);
-                $beta = pow($B, 1 / 3);
-
-                $x_1 = $alpha + $beta;
-                $x_2 = -(($alpha + $beta) / 2) + (($alpha - $beta) / 2) * sqrt(3);
-                $x_3 = -(($alpha + $beta) / 2) - (($alpha - $beta) / 2) * sqrt(3);
-
-                return [$x_1, $x_2, $x_3];
-            } elseif ($D < 0) {
-                $A = -$q / 2 + sqrt($Q);
-                $B = -$q / 2 - sqrt($Q);
-
-                $alpha = pow($A, 1 / 3);
-                $beta = pow($B, 1 / 3);
-                $x_1 = $alpha + $beta;
-
-                return ["$alpha , $beta"];
-                return [$x_1];
-            }
-
-            if ($D = 0) {
-                return ['комплексные числа'];
-            }*/
         }
     }
 }
