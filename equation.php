@@ -123,11 +123,9 @@ function cubic($num1=0, $num2=0, $num3=0, $num4=0) {
     }
 }
 
-function Fx($x = 0) {
+$func = function($x = 0) {
     return $x**2;
-}
-
-$func = 'Fx';
+};
 
 function integral(&$func = null, $a = 0, $b = 0, $eps = 0.0001) {
     $S = 0;
@@ -137,8 +135,10 @@ function integral(&$func = null, $a = 0, $b = 0, $eps = 0.0001) {
     return [$S];
 }
 
-function volumeRotation(&$func = null, $a = 0, $b = 0, $eps = 0.0001) {
+function volumeRotation($func = null, $a = 0, $b = 0, $eps = 0.0001) {
     $S = 0;
+    print_r($func);
+    eval("\$func = function(\$x = 0) { return $func; };");
     for ($i = $a; $i < $b; $i += $eps) {
         $S += $eps * $func($i)**2 * pi();
     }
